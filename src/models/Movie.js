@@ -6,7 +6,7 @@ class Movie extends Model {}
 Movie.init({
     title: DataTypes.STRING,
     picture_url: DataTypes.STRING,
-    score: DataTypes.INTEGER(1),
+    score: DataTypes.ENUM(1, 2, 3, 4, 5),
     genre_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
