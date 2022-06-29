@@ -23,7 +23,9 @@ const AuthController = {
                 username: user.username,
                 id: user.id,
                 email: user.email
-            }, process.env.SECRET_KEY);
+            }, process.env.SECRET_KEY, {
+                expiresIn: "10h"
+            });
 
             res.header('auth-token', token).status(200).json({
                 message: "Logueado con éxito",
