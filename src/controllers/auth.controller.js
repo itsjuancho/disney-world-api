@@ -71,7 +71,7 @@ const AuthController = {
             }
         });
         if (userExists) {
-            res.status(200).json({
+            res.status(409).json({
                 message: "El correo o el nombre de usuario que intentas usar, ya se encuentran en uso. Elige otros."
             });
         } else {
