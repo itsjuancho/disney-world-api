@@ -5,9 +5,9 @@ const MoviesRoutes = require('./routes/movies.route');
 const AuthRoutes = require('./routes/auth.route');
 const {checkToken, validateToken} = require('./middlewares/checkToken');
 
-router.use(CharactersRoutes);
-router.use(GenresRoutes);
-router.use([checkToken, validateToken], MoviesRoutes);
-router.use(AuthRoutes);
+router.use("/characters", CharactersRoutes);
+router.use("/genres", GenresRoutes);
+router.use("/movies", [checkToken, validateToken], MoviesRoutes);
+router.use("/auth", AuthRoutes);
 
 module.exports = router;

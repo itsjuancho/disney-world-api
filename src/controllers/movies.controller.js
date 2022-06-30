@@ -38,7 +38,9 @@ const MoviesController = {
                 score: +score,
                 genre_id: +genre_id
             });
-            movie.setCharacters(characters);
+            if (characters) {
+                movie.setCharacters(characters);
+            }
             res.status(200).json({
                 message: "The movie's created successfully!",
                 movie
