@@ -143,6 +143,36 @@
                 "tags": ["Auth"],
                 "summary": "Autenticarse en el sistema"
             }
+        },
+        "/characters": {
+            "post": {
+                "tags": ["Characters"],
+                "summary": "Crear un nuevo personaje"
+            },
+            "get": {
+                "tags": ["Characters"],
+                "summary": "Obtener todos los personajes"
+            }
+        },
+        "/characters/{id}": {
+            "get": {
+                "tags": ["Characters"],
+                "summary": "Obtener un personaje por medio de su ID"
+            },
+            "put": {
+                "tags": ["Characters"],
+                "summary": "Actualizar un personaje por medio de su ID"
+            },
+            "delete": {
+                "tags": ["Characters"],
+                "summary": "Eliminar un personaje por medio de su ID"
+            }
+        },
+        "/genres": {
+            "get": {
+                "tags": ["Genres"],
+                "summary": "Obtener todos los géneros cinematográficos disponibles"
+            }
         }
     },
     "components": {
