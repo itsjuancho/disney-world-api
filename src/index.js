@@ -1,7 +1,9 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const morgan = require('morgan');
 const routes = require('./routes.js');
+const swaggerUi = require('swagger-ui-express');
 
 require('dotenv').config();
 const PORT = process.env.PORT || 3000;
@@ -13,14 +15,14 @@ app.set('port', PORT);
 app.set('json spaces', 2);
 app.use(express.json());
 app.use(cors());
+app.use(morgan('dev'));
 
 app.use("/api", routes);
 
-app.get('/', (req, res) => {
-    res.status(200).json({
-        msg: "Bienvenido a tu primera API rest"
-    })
-});
+app.use('/', swaggerUi.serve, swaggerUi.setup(require('../api.docs.json'), {
+    customCss: '.swagger-ui .topbar { display: none }',
+    customSiteTitle: "Docs | Disney World API"
+}));
 
 app.use((req, res) => {
     res.status(404).json({
