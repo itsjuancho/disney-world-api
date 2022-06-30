@@ -1,0 +1,197 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "Disney World API",
+        "description": "API para obtener películas y series de Disney",
+        "version": "1.0.0"
+    },
+    "externalDocs": {
+        "url": "https://github.com/itsjuancho/disney-worl-api",
+        "description": "Ir al repositorio en GitHub"
+    }, 
+    "servers": [
+        {
+            "description": "Entorno de desarrollo",
+            "url": "http://localhost:3000/api"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Characters",
+            "description": "Endpoint que recoge todas las operaciones CRUD acerca de los personajes de películas o series."
+        },
+        {
+            "name": "Movies",
+            "description": "Endpoint que recoge todas las operaciones CRUD sobre las películas o series de Disney"
+        },
+        {
+            "name": "Genres",
+            "description": "Endpoint que recoge todas las operaciones CRUD sobre los géneros cinematográficos disponibles"
+        },
+        {
+            "name": "Auth",
+            "description": "Endpoint que permite realizar operaciones de registro y login de usuarios para usar la API"
+        }
+    ],
+    "paths": {
+        "/movies": {
+            "get": {
+                "tags": ["Movies"],
+                "summary": "Permite obtener todas las películas y/o series",
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/token"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Petición realizada de manera exitosa, devolverá un array de objetos con las películas"
+                    },
+                    "400": {
+                        "description": "Token no proporcionado en los headers",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/headersMalformed"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Token de autorización inválido y/o expirado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/unauthorized"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": ["Movies"],
+                "summary": "Crear una nueva película"
+            }
+        },
+        "/movies/{id}": {
+            "get": {
+                "tags": ["Movies"],
+                "summary": "Permite obtener una película o serie determinada mediante una ID"
+            },
+            "put": {
+                "tags": ["Movies"],
+                "summary": "Permite actualizar película o serie determinada mediante una ID"
+            }, 
+            "delete": {
+                "tags": ["Movies"],
+                "summary": "Permite eliminar una película o serie determinada mediante una ID"
+            }
+        },
+        "/auth/registro": {
+            "post": {
+                "tags": ["Auth"],
+                "summary": "Registrar un nuevo usuario",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/registerUser"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "409": {
+                        "description": "El nombre y/o correo que se intenta registrar ya existe",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "El correo o el nombre de usuario que intentas usar, ya se encuentran en uso. Elige otros."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "Usuario creado con éxito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Usuario creado con éxito. A tu correo te hemos enviado un email de bienvenida."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "tags": ["Auth"],
+                "summary": "Autenticarse en el sistema"
+            }
+        }
+    },
+    "components": {
+        "parameters": {
+            "token": {
+                "name": "auth-token",
+                "in": "header",
+                "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsIm5hbWUiOiJtYW51ZWx2YWxlbnp1ZWxhdHJAZ21haWwuY29tIiwiaWF0IjoxNjMyOTQwMTY1LCJleHAiOjE2MzI5NDAzNDV9.rD8KbYqEYhyAhNYvEMZhLBe8ZbCUQ8G6lg5Txj1CrWM",
+                "description": "Token de autenticación de Usuario",
+                "required": true
+            }
+        },
+        "schemas": {
+            "unauthorized": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "Token inválido y/o expirado"
+                    }
+                }
+            },
+            "headersMalformed": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "Token de autorización no proporcionado"
+                    }
+                }
+            },
+            "registerUser": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string",
+                        "example": "ricky87",
+                        "description": "Nombre único de usuario"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "Email único"
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "Contraseña de más de 8 dígitos alfanuméricos"
+                    }
+                }
+            }
+        }
+    }
+}
