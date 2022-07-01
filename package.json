@@ -4,7 +4,7 @@
   "description": "API para obtener películas y series de Disney",
   "main": "src/index.js",
   "scripts": {
-    "test": "mocha __tests__/*.js --timeout 150000",
+    "test": "mocha __tests__/test_*.js --timeout 150000",
     "start": "node src/index.js",
     "dev": "nodemon src/index.js"
   },
