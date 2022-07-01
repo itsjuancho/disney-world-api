@@ -19,10 +19,12 @@ app.use(morgan('dev'));
 
 app.use("/api", routes);
 
-app.use('/', swaggerUi.serve, swaggerUi.setup(require('../docs/api.docs.json'), {
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(require('../docs/api.docs.json'), {
     customCss: '.swagger-ui .topbar { display: none }',
     customSiteTitle: "Docs | Disney World API"
 }));
+
+app.get('/', (_, res) => res.redirect('/docs'));
 
 app.use((req, res) => {
     res.status(404).json({
