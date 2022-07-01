@@ -45,11 +45,49 @@ let CharactersController = {
                     exclude: ["createdAt", "updatedAt"]
                 }
             });
-            res.status(200).json(character);
+            if (character) {
+                res.status(200).json(character);
+            } else {
+                res.status(404).json({
+                    message: "Este personaje no existe"
+                });
+            }
         } catch (error) {
             console.log(error);
             res.status(500).json({
                 message: "Error del servidor"
+            });
+        }
+    },
+    async update(req, res) {
+        const { id } = req.params;
+        const { name, age, picture_url, weight, history } = req.body;
+
+        try {
+            let [character] = await Character.update({
+                name: name,
+                age: +age,
+                picture_url: picture_url,
+                weight: weight,
+                history: history
+            }, {
+                where: {
+                    id: id
+                }
+            });
+            if (character) {
+                res.status(204).json({
+                    message: "El personaje fue actualizado con éxito"
+                });
+            } else {
+                res.status(400).json({
+                    message: "El personaje no pudo ser actualizado"
+                });
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({
+                message: "Ha ocurrido un error a la hora de actualizar"
             });
         }
     }
