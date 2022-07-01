@@ -11,7 +11,8 @@ Character.init({
     history: DataTypes.TEXT
 }, {
     sequelize,
-    modelName: "character"
+    modelName: "character",
+    timestamps: false
 });
 
 module.exports = Character;
