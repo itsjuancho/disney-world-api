@@ -2,6 +2,11 @@
 
 API para obtener, modificar, agregar y eliminar Series y/o Películas, Personajes y Géneros cinematográficos del Mundo de Disney.
 
+## To-Do
+
+- Corregir datos de documentación
+- Crear middlewares para validar y sanitizar los datos que vienen por body/params
+
 ## Configuración inicial
 
 Para evitar diferencias en Sistemas Operativos, los siguientes pasos serán usados bajo las Bash de Git.
