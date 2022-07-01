@@ -1,9 +1,4 @@
-let chai = require('chai');
-let http = require('chai-http');
-const expect = require('chai').expect;
-
-chai.use(http);
-const URL = "http://localhost:3000/api";
+let {chai, URL, expect} = require('./config');
 
 describe('POST /auth/login: ', () => {
     const objRequest = {
