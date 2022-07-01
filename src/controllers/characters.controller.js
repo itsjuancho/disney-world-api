@@ -2,13 +2,14 @@ const Character = require("../models/Character");
 
 let CharactersController = {
     async create(req, res) {
+        const { name, age, picture_url, weight, history } = req.body;
         try {
             let character = await Character.create({
-                name: "Aladín",
-                age: 15,
-                picture_url: "http://img.disney.co/pudin/aladin",
-                weight: 36.7,
-                history: "Esta es la historia de cadasdinty"
+                name: name,
+                age: +age,
+                picture_url: picture_url,
+                weight: weight,
+                history: history
             });
             res.status(200).json({
                 message: "Create successfully!",
@@ -88,6 +89,31 @@ let CharactersController = {
             console.log(error);
             res.status(500).json({
                 message: "Ha ocurrido un error a la hora de actualizar"
+            });
+        }
+    },
+    async delete(req, res) {
+        const { id } = req.params;
+
+        try {
+            let deletedCharacter = await Character.destroy({
+                where: {
+                    id: id
+                }
+            });
+            if (deletedCharacter) {
+                res.status(200).json({
+                    message: "Personaje eliminado correctamente"
+                });
+            } else {
+                res.status(200).json({
+                    message: "El personaje no se pudo eliminar"
+                });
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({
+                message: "Ha ocurrido un error a la hora de eliminar el personaje"
             });
         }
     }

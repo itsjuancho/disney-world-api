@@ -2,16 +2,20 @@ const Genre = require("../models/Genre");
 const Movie = require("../models/Movie");
 
 const GenresController = {
-    async get(req, res) {
+    async create(req, res) {
+        const { name, picture_url } = req.body;
         try {
             let genre = await Genre.create({
-                name: "Comedia",
-                picture_url: "https://disneyworld.co/image/comedia.jpg"
+                name: name,
+                picture_url: picture_url
             });
             console.log(genre);
             res.status(200).json(genre);
         } catch (error) {
             console.log(error);
+            res.status(500).json({
+                message: "Error del servidor"
+            });
         }
     },
     async getAll(req, res) {
