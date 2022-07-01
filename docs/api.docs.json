@@ -46,7 +46,17 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Petición realizada de manera exitosa, devolverá un array de objetos con las películas"
+                        "description": "Petición realizada de manera exitosa, devolverá un array de objetos con las películas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/MovieDTO"
+                                    }
+                                }
+                            }
+                        }
                     },
                     "400": {
                         "description": "Token no proporcionado en los headers",
@@ -72,21 +82,41 @@
             },
             "post": {
                 "tags": ["Movies"],
-                "summary": "Crear una nueva película"
+                "summary": "Crear una nueva película",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/token"
+                    }
+                ]
             }
         },
         "/movies/{id}": {
             "get": {
                 "tags": ["Movies"],
-                "summary": "Permite obtener una película o serie determinada mediante una ID"
+                "summary": "Permite obtener una película o serie determinada mediante una ID",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/token"
+                    }
+                ]
             },
             "put": {
                 "tags": ["Movies"],
-                "summary": "Permite actualizar película o serie determinada mediante una ID"
+                "summary": "Permite actualizar película o serie determinada mediante una ID",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/token"
+                    }
+                ]
             }, 
             "delete": {
                 "tags": ["Movies"],
-                "summary": "Permite eliminar una película o serie determinada mediante una ID"
+                "summary": "Permite eliminar una película o serie determinada mediante una ID",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/token"
+                    }
+                ]
             }
         },
         "/auth/registro": {
@@ -97,7 +127,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/registerUser"
+                                "$ref": "#/components/schemas/UserDTO"
                             }
                         }
                     }
@@ -141,37 +171,121 @@
         "/auth/login": {
             "post": {
                 "tags": ["Auth"],
-                "summary": "Autenticarse en el sistema"
+                "summary": "Autenticarse en el sistema",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Usuario logueado con éxito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Logueado con éxito"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImphcGVyZXoiLCJpZCI6MSwiZW1haWwiOiJqdWFuYW5kcmVzcGVyZXpwdEBnbWFpbC5jb20iLCJpYXQY2NDU4NDMsImV4cCI6MTY1NjY4MTg0M30.4cUKD23sutzkmwVsY2kVw6trnQHG7AGBYWJ7U7RqOZ0"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/characters": {
             "post": {
                 "tags": ["Characters"],
-                "summary": "Crear un nuevo personaje"
+                "summary": "Crear un nuevo personaje",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/token"
+                    }
+                ]
             },
             "get": {
                 "tags": ["Characters"],
-                "summary": "Obtener todos los personajes"
+                "summary": "Obtener todos los personajes",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/token"
+                    }
+                ]
             }
         },
         "/characters/{id}": {
             "get": {
                 "tags": ["Characters"],
-                "summary": "Obtener un personaje por medio de su ID"
+                "summary": "Obtener un personaje por medio de su ID",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/token"
+                    }
+                ]
             },
             "put": {
                 "tags": ["Characters"],
-                "summary": "Actualizar un personaje por medio de su ID"
+                "summary": "Actualizar un personaje por medio de su ID",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/token"
+                    }
+                ]
             },
             "delete": {
                 "tags": ["Characters"],
-                "summary": "Eliminar un personaje por medio de su ID"
+                "summary": "Eliminar un personaje por medio de su ID",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/token"
+                    }
+                ]
             }
         },
         "/genres": {
             "get": {
                 "tags": ["Genres"],
-                "summary": "Obtener todos los géneros cinematográficos disponibles"
+                "summary": "Obtener todos los géneros cinematográficos disponibles",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/token"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Solicitud realizada con éxito. Retorna un array de objetos de tipo género",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/GenreDTO"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     },
@@ -204,12 +318,11 @@
                     }
                 }
             },
-            "registerUser": {
+            "UserDTO": {
                 "type": "object",
                 "properties": {
                     "username": {
                         "type": "string",
-                        "example": "ricky87",
                         "description": "Nombre único de usuario"
                     },
                     "email": {
@@ -219,6 +332,59 @@
                     "password": {
                         "type": "string",
                         "description": "Contraseña de más de 8 dígitos alfanuméricos"
+                    }
+                }
+            }, 
+            "CharacterDTO": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "age": {
+                        "type": "integer"
+                    },
+                    "picture_url": {
+                        "type": "string"
+                    },
+                    "weight": {
+                        "type": "decimal(3, 1)"
+                    },
+                    "history": {
+                        "type": "string"
+                    }
+                }
+            },
+            "MovieDTO": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string"
+                    },
+                    "picture_url": {
+                        "type": "string"
+                    },
+                    "score": {
+                        "type": "integer",
+                        "description": "Valores del 0 al 5"
+                    },
+                    "genre_id": {
+                        "type": "integer",
+                        "description": "ID del género cinematográfico"
+                    },
+                    "characters": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        }
+                    }
+                }
+            },
+            "GenreDTO": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
                     }
                 }
             }
